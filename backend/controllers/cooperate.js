@@ -12,7 +12,7 @@ class CooperateController {
   async createApplication(ctx) {
     try {
       const userId = ctx.state.user.id;
-      const { companyName, contactName, contactPhone, companyDesc, intentionDesc } = ctx.request.body;
+      const { companyName, contactName, contactPhone, companyDesc, intentionDesc, attachments } = ctx.request.body;
       
       // 验证请求参数
       if (!companyName || !contactName || !contactPhone || !companyDesc || !intentionDesc) {
@@ -30,11 +30,11 @@ class CooperateController {
       }
       
       // 获取上传的文件
-      let attachments = [];
-      if (ctx.request.files && ctx.request.files.files) {
-        const files = Array.isArray(ctx.request.files.files) 
-          ? ctx.request.files.files 
-          : [ctx.request.files.files];
+      let fileAttachments = [];
+      if (ctx.request.files && ctx.request.files.file) {
+        const files = Array.isArray(ctx.request.files.file) 
+          ? ctx.request.files.file 
+          : [ctx.request.files.file];
         
         // 确保上传目录存在
         const uploadDir = path.join(__dirname, '../public/uploads/cooperate');
@@ -57,7 +57,7 @@ class CooperateController {
             writer.on('error', reject);
           });
           
-          attachments.push({
+          fileAttachments.push({
             name: file.originalFilename,
             url: `/uploads/cooperate/${fileName}`,
             size: file.size,
@@ -66,9 +66,27 @@ class CooperateController {
         }
       }
       
-      // 如果前端直接传递了附件数据
-      if (ctx.request.body.attachments && Array.isArray(ctx.request.body.attachments)) {
-        attachments = [...attachments, ...ctx.request.body.attachments];
+      // 处理前端传递的附件数据
+      let finalAttachments = fileAttachments;
+      if (attachments) {
+        let parsedAttachments;
+        
+        // 如果attachments是字符串，尝试解析为JSON
+        if (typeof attachments === 'string') {
+          try {
+            parsedAttachments = JSON.parse(attachments);
+          } catch (e) {
+            console.error('解析附件数据失败:', e);
+            parsedAttachments = [];
+          }
+        } else {
+          parsedAttachments = attachments;
+        }
+        
+        // 确保是数组
+        if (Array.isArray(parsedAttachments)) {
+          finalAttachments = [...fileAttachments, ...parsedAttachments];
+        }
       }
       
       // 创建合作申请记录
@@ -79,7 +97,7 @@ class CooperateController {
         contactPhone,
         companyDesc,
         intentionDesc,
-        attachments,
+        attachments: finalAttachments,
         status: 'pending'
       });
       

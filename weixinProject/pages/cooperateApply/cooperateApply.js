@@ -48,16 +48,15 @@ Page({
 
   // 选择文件
   chooseFile: function () {
-    wx.chooseMedia({
+    wx.chooseMessageFile({
       count: 5,
-      mediaType: ['image', 'video', 'mix'],
-      sourceType: ['album', 'camera'],
+      type: 'file',
       success: (res) => {
         const tempFiles = res.tempFiles.map(file => ({
-          name: file.tempFilePath.split('/').pop(),
+          name: file.name || file.path.split('/').pop(),
           size: file.size,
-          type: 'image', // 或根据file.fileType判断
-          url: file.tempFilePath
+          type: this.getFileType(file.name || file.path),
+          url: file.path
         }));
         
         const fileList = [...this.data.fileList, ...tempFiles];
@@ -73,11 +72,16 @@ Page({
     const docExts = ['doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'pdf', 'txt'];
     
     if (imageExts.includes(ext)) {
-      return 'image';
+      return 'image/' + ext;
     } else if (docExts.includes(ext)) {
-      return 'document';
+      if (ext === 'pdf') return 'application/pdf';
+      if (ext === 'txt') return 'text/plain';
+      if (ext.startsWith('doc')) return 'application/msword';
+      if (ext.startsWith('xls')) return 'application/vnd.ms-excel';
+      if (ext.startsWith('ppt')) return 'application/vnd.ms-powerpoint';
+      return 'application/octet-stream';
     } else {
-      return 'other';
+      return 'application/octet-stream';
     }
   },
 
@@ -196,7 +200,7 @@ Page({
   // 上传文件
   uploadFiles: async function (files) {
     const uploadedFiles = [];
-    const baseUrl = 'http://localhost:3001'; // 定义基础URL
+    const baseUrl = app.globalData.baseUrl || 'http://127.0.0.1:3001';
     
     for (const file of files) {
       try {
@@ -211,7 +215,13 @@ Page({
             success: (res) => {
               const data = JSON.parse(res.data);
               if (data.code === 200) {
-                resolve(data.data);
+                // 添加文件类型信息
+                const fileInfo = {
+                  ...data.data,
+                  name: file.name,
+                  type: file.type
+                };
+                resolve(fileInfo);
               } else {
                 reject(new Error(data.message || '上传失败'));
               }
@@ -441,7 +451,7 @@ Page({
   // 下载文件
   downloadFile: function(e) {
     const { url, name } = e.currentTarget.dataset;
-    const baseUrl = 'http://localhost:3001';
+    const baseUrl = app.globalData.baseUrl || 'http://127.0.0.1:3001';
     const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
     
     wx.showLoading({
@@ -450,7 +460,9 @@ Page({
     
     wx.downloadFile({
       url: fullUrl,
-      filePath: wx.env.USER_DATA_PATH + '/' + name,
+      header: {
+        'Authorization': `Bearer ${wx.getStorageSync('token')}`
+      },
       success: (res) => {
         wx.hideLoading();
         if (res.statusCode === 200) {
@@ -461,7 +473,7 @@ Page({
           
           // 打开文件
           wx.openDocument({
-            filePath: res.filePath,
+            filePath: res.tempFilePath,
             showMenu: true,
             success: function() {
               console.log('打开文件成功');
@@ -495,10 +507,10 @@ Page({
   // 预览文件
   previewFile: function(e) {
     const { url, type } = e.currentTarget.dataset;
-    const baseUrl = 'http://localhost:3001';
+    const baseUrl = app.globalData.baseUrl || 'http://127.0.0.1:3001';
     const fullUrl = url.startsWith('http') ? url : `${baseUrl}${url}`;
     
-    if (type.indexOf('image') >= 0) {
+    if (type && type.startsWith('image/')) {
       // 预览图片
       wx.previewImage({
         urls: [fullUrl],

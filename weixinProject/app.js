@@ -1,5 +1,5 @@
 // app.js
-const request = require('./utils/request');
+const { request, baseUrl } = require('./utils/request');
 
 App({
   onLaunch() {
@@ -48,6 +48,6 @@ App({
   globalData: {
     userInfo: null,
     isLogin: false,
-    baseUrl: 'http://localhost:3001'
+    baseUrl: baseUrl
   }
 });

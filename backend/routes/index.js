@@ -6,6 +6,7 @@ const projectRoutes = require('./project');
 const userRoutes = require('./user');
 const cooperateRoutes = require('./cooperate');
 const uploadRoutes = require('./upload');
+const fileRoutes = require('./file');
 
 const router = new Router();
 
@@ -29,5 +30,7 @@ router.use(cooperateRoutes.routes());
 router.use(cooperateRoutes.allowedMethods());
 router.use(uploadRoutes.routes());
 router.use(uploadRoutes.allowedMethods());
+router.use(fileRoutes.routes());
+router.use(fileRoutes.allowedMethods());
 
 module.exports = router;

@@ -1,3 +1,23 @@
+<wxs module="format">
+  function formatFileSize(size) {
+    if (!size) return '未知大小';
+    
+    if (size < 1024) {
+      return size + 'B';
+    } else if (size < 1024 * 1024) {
+      return (size / 1024).toFixed(2) + 'KB';
+    } else if (size < 1024 * 1024 * 1024) {
+      return (size / (1024 * 1024)).toFixed(2) + 'MB';
+    } else {
+      return (size / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
+    }
+  }
+  
+  module.exports = {
+    formatFileSize: formatFileSize
+  };
+</wxs>
+
 <!--pages/cooperateApply/cooperateApply.wxml-->
 <view class="container">
   <!-- 顶部标签页 -->
@@ -47,11 +67,18 @@
       <view class="uploader-container">
         <view class="uploader-files" wx:if="{{fileList.length > 0}}">
           <view class="file-item" wx:for="{{fileList}}" wx:key="index">
-            <text class="file-name">{{item.name || '文件' + (index + 1)}}</text>
+            <view class="file-info">
+              <view class="file-type-icon {{item.type.split('/')[0]}}"></view>
+              <view class="file-details">
+                <text class="file-name" title="{{item.name}}">{{item.name}}</text>
+                <text class="file-size">{{format.formatFileSize(item.size)}}</text>
+              </view>
+            </view>
             <view class="file-delete" catchtap="deleteFile" data-index="{{index}}">×</view>
           </view>
         </view>
         <button class="upload-btn" bindtap="chooseFile">选择文件</button>
+        <text class="upload-tip">支持图片、文档、表格等多种格式文件</text>
       </view>
     </view>
 
@@ -136,15 +163,18 @@
         <view class="detail-files">
           <view class="detail-file" wx:for="{{currentDetail.attachments}}" wx:key="index">
             <view class="file-info">
-              <text class="file-name">{{item.name}}</text>
-              <text class="file-size">{{item.sizeText || item.size}} {{item.sizeUnit || 'B'}}</text>
+              <view class="file-type-icon {{item.type.split('/')[0]}}"></view>
+              <view class="file-details">
+                <text class="file-name" title="{{item.name}}">{{item.name}}</text>
+                <text class="file-size">{{format.formatFileSize(item.size)}}</text>
+              </view>
             </view>
             <view class="file-actions">
               <view class="file-download" catchtap="downloadFile" data-url="{{item.url}}" data-name="{{item.name}}">
                 <text class="download-icon">↓</text>
                 <text class="download-text">下载</text>
               </view>
-              <view class="file-preview" catchtap="previewFile" data-url="{{item.url}}" data-type="{{item.type}}" wx:if="{{item.type.indexOf('image') >= 0}}">
+              <view class="file-preview" catchtap="previewFile" data-url="{{item.url}}" data-type="{{item.type}}" wx:if="{{item.type && item.type.startsWith('image/')}}">
                 <text class="preview-text">预览</text>
               </view>
             </view>

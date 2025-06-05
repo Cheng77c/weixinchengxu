@@ -12,6 +12,7 @@ const ProjectReport = require('../models/projectReport');
 const Inquiry = require('../models/inquiry');
 const Ticket = require('../models/ticket');
 const FAQ = require('../models/faq');
+const File = require('../models/file');
 // 在这里导入其他模型...
 
 // 同步所有模型到数据库
@@ -25,12 +26,13 @@ async function syncModels() {
     // 这样可以避免Too many keys错误
     try {
       // 尝试单独同步新模型
-      await Inquiry.sync({ force: false, alter: false });
-      await Ticket.sync({ force: false, alter: false });
-      await FAQ.sync({ force: false, alter: false });
-      console.log('客户服务相关模型已同步到数据库');
+      await Inquiry.sync({ force: false, alter: true });
+      await Ticket.sync({ force: false, alter: true });
+      await FAQ.sync({ force: false, alter: true });
+      await File.sync({ force: false, alter: true });
+      console.log('客户服务和资料中心相关模型已同步到数据库');
     } catch (modelError) {
-      console.error('客户服务模型同步失败:', modelError);
+      console.error('模型同步失败:', modelError);
     }
     
     console.log('所有模型同步完成');

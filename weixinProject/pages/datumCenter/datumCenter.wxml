@@ -1,36 +1,188 @@
-<view class="container">
-  <!-- 搜索框 -->
-  <view class="search-box">
-    <input bindinput="handleSearch" placeholder="搜索文件..." />
-  </view>
+<wxs module="utils">
+var formatFileSize = function(size) {
+  if (!size && size !== 0) return '';
+  size = Number(size);
+  if (isNaN(size)) return '';
+  
+  if (size < 1024) {
+    return size + 'B';
+  } else if (size < 1024 * 1024) {
+    return (size / 1024).toFixed(2) + 'KB';
+  } else if (size < 1024 * 1024 * 1024) {
+    return (size / (1024 * 1024)).toFixed(2) + 'MB';
+  } else {
+    return (size / (1024 * 1024 * 1024)).toFixed(2) + 'GB';
+  }
+}
+module.exports = {
+  formatFileSize: formatFileSize
+};
+</wxs>
 
-  <!-- 文件上传 -->
-  <view class="upload-section">
-    <button bindtap="handleUpload">上传资料</button>
-  </view>
-
-  <!-- 文件分类展示 -->
-  <view class="categories">
-    <view class="category" wx:for="{{fileCategories}}" wx:key="*this">
-      <text>{{item}}</text>
-    </view>
-  </view>
-
-  <!-- 可下载文件列表 -->
-  <view class="file-list">
-    <view wx:for="{{downloadableFiles}}" wx:key="*this">
-      <view class="file-item">
-        <text>{{item.name}}</text>
-        <button bindtap="handleDownload" data-filename="{{item.name}}">下载</button>
+<view class="datum-container">
+  <!-- 头部区域 -->
+  <view class="header">
+    <view class="search-box">
+      <input bindinput="handleSearch" placeholder="搜索文件..." />
+      <view class="search-icon">
+        <text class="iconfont icon-search"></text>
       </view>
     </view>
+    <view class="upload-btn" bindtap="handleUpload">
+      <text>上传资料</text>
+    </view>
   </view>
 
-  <!-- 已上传文件列表（合作伙伴） -->
-  <view class="uploaded-files">
-    <view wx:for="{{uploadedFiles}}" wx:key="*this">
-      <view class="file-item">
-        <text>{{item.name}} (上传者: {{item.uploadedBy}})</text>
+  <!-- 分类导航 -->
+  <scroll-view scroll-x="true" class="category-nav">
+    <view class="category-list">
+      <view class="category-item {{currentCategory === item ? 'active' : ''}}" 
+            wx:for="{{fileCategories}}" 
+            wx:key="*this"
+            bindtap="switchCategory"
+            data-category="{{item}}">
+        <text>{{item}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 文件列表区域 -->
+  <view class="content-area">
+    <!-- 分类浏览模式 -->
+    <block wx:if="{{viewMode === 'category'}}">
+      <block wx:for="{{fileCategories}}" wx:key="*this" wx:for-item="category">
+        <view class="file-section" wx:if="{{!currentCategory || currentCategory === category}}">
+          <view class="section-header">
+            <text class="section-title">{{category}}</text>
+          </view>
+          
+          <view class="file-list">
+            <block wx:if="{{categoryFiles[category] && categoryFiles[category].length > 0}}">
+              <view wx:for="{{categoryFiles[category]}}" wx:key="id" class="file-card">
+                <view class="file-icon {{item.type || 'application'}}"></view>
+                <view class="file-content">
+                  <view class="file-title">{{item.name || '未命名文件'}}</view>
+                  <view class="file-meta">
+                    <text class="file-size">{{utils.formatFileSize(item.size)}}</text>
+                    <text class="file-date">{{item.createdAt ? item.createdAt.substring(0, 10) : ''}}</text>
+                  </view>
+                </view>
+                <view class="file-actions">
+                  <view class="action-btn download" bindtap="handleDownload" data-id="{{item.id}}">
+                    <text class="action-icon">↓</text>
+                  </view>
+                  <view wx:if="{{item.uploader.id === userInfo.id || userInfo.status === 'admin'}}" 
+                        class="action-btn delete" 
+                        bindtap="handleDelete" 
+                        data-id="{{item.id}}">
+                    <text class="action-icon">×</text>
+                  </view>
+                </view>
+              </view>
+            </block>
+            <view wx:else class="empty-state">
+              <view class="empty-icon">📄</view>
+              <text class="empty-text">暂无{{category}}文件</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <!-- 我的上传模式 -->
+    <block wx:if="{{viewMode === 'myUploads'}}">
+      <view class="file-section">
+        <view class="section-header">
+          <text class="section-title">我上传的文件</text>
+        </view>
+        
+        <view class="file-list">
+          <block wx:if="{{myFiles.length > 0}}">
+            <view wx:for="{{myFiles}}" wx:key="id" class="file-card">
+              <view class="file-icon {{item.type || 'application'}}"></view>
+              <view class="file-content">
+                <view class="file-title">{{item.name || '未命名文件'}}</view>
+                <view class="file-meta">
+                  <text class="file-category-tag">{{item.category}}</text>
+                  <text class="file-size">{{utils.formatFileSize(item.size)}}</text>
+                  <text class="file-date">{{item.createdAt ? item.createdAt.substring(0, 10) : ''}}</text>
+                </view>
+              </view>
+              <view class="file-actions">
+                <view class="action-btn download" bindtap="handleDownload" data-id="{{item.id}}">
+                  <text class="action-icon">↓</text>
+                </view>
+                <view class="action-btn delete" bindtap="handleDelete" data-id="{{item.id}}">
+                  <text class="action-icon">×</text>
+                </view>
+              </view>
+            </view>
+          </block>
+          <view wx:else class="empty-state">
+            <view class="empty-icon">📄</view>
+            <text class="empty-text">您还没有上传过文件</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部导航 -->
+  <view class="bottom-tabs">
+    <view class="tab-item {{viewMode === 'category' ? 'active' : ''}}" bindtap="switchViewMode" data-mode="category">
+      <view class="tab-icon">📁</view>
+      <text class="tab-text">分类浏览</text>
+    </view>
+    <view class="tab-item {{viewMode === 'myUploads' ? 'active' : ''}}" bindtap="switchViewMode" data-mode="myUploads">
+      <view class="tab-icon">📤</view>
+      <text class="tab-text">我的上传</text>
+    </view>
+  </view>
+
+  <!-- 上传弹窗 -->
+  <view class="modal {{showUploadModal ? 'show' : ''}}" wx:if="{{showUploadModal}}">
+    <view class="modal-mask" bindtap="closeUploadModal"></view>
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">上传文件</text>
+        <view class="modal-close" bindtap="closeUploadModal">×</view>
+      </view>
+      
+      <view class="modal-body">
+        <view class="form-group">
+          <text class="form-label">选择分类</text>
+          <picker bindchange="handleCategoryChange" value="{{categoryIndex}}" range="{{fileCategories}}" class="form-picker">
+            <view class="picker-value">
+              {{fileCategories[categoryIndex]}}
+            </view>
+          </picker>
+        </view>
+        
+        <view class="form-group">
+          <text class="form-label">文件描述</text>
+          <textarea bindinput="handleDescriptionInput" placeholder="请输入文件描述（选填）" class="form-textarea"></textarea>
+        </view>
+        
+        <view class="form-group checkbox-group">
+          <checkbox bindtap="toggleExclusive" checked="{{isExclusive}}" class="form-checkbox"></checkbox>
+          <text class="checkbox-label">设为专属文件（仅管理员和合作伙伴可见）</text>
+        </view>
+        
+        <view class="form-group file-upload">
+          <button bindtap="selectFile" class="upload-button">选择文件</button>
+          <view wx:if="{{selectedFile}}" class="selected-file-info">
+            <view class="file-icon {{selectedFile.type || 'application'}}"></view>
+            <view class="file-details">
+              <text class="file-name">{{selectedFile.name}}</text>
+              <text class="file-size">{{utils.formatFileSize(selectedFile.size)}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="modal-footer">
+        <button bindtap="closeUploadModal" class="btn-cancel">取消</button>
+        <button bindtap="confirmUpload" class="btn-confirm" disabled="{{!selectedFile}}">确认上传</button>
       </view>
     </view>
   </view>

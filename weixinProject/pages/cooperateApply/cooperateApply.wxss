@@ -69,51 +69,108 @@
 /* 上传组件样式 */
 .uploader-container {
   margin-top: 10rpx;
+  width: 100%;
 }
 
 .uploader-files {
   margin-bottom: 20rpx;
+  width: 100%;
 }
 
 .file-item {
-  padding: 15rpx;
-  background-color: #f1f1f1;
-  border-radius: 6rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
   margin-bottom: 10rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.file-info {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  flex: 1;
+  overflow: hidden;
+  max-width: 80%;
+}
+
+.file-type-icon {
+  width: 48rpx;
+  height: 48rpx;
+  margin-right: 16rpx;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.file-type-icon.image {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzQyODVmNCI+PHBhdGggZD0iTTIxIDNIMUMwLjQ0NzcgMyAwIDMuNDQ3NyAwIDRWMjBDMCAyMC41NTIzIDAuNDQ3NyAyMSAxIDIxSDIxQzIxLjU1MjMgMjEgMjIgMjAuNTUyMyAyMiAyMFY0QzIyIDMuNDQ3NyAyMS41NTIzIDMgMjEgM1pNMTAgMTVMNy41IDE4SDQuNUwxMCAxMUwxMy41IDE1LjVMMTYgMTJMMTkuNSAxNkgxNy41TDE2IDE0TDEzLjUgMTcuNUwxMCAxNVpNNCA3SDdWMTBINFY3WiIvPjwvc3ZnPg==');
+}
+
+.file-type-icon.application {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2Y0YjQwMCI+PHBhdGggZD0iTTE0IDJIMVYyMkgyM1Y4TDE0IDJaTTE0IDhWM0wyMiA5SDE0VjhaTTMgMjBWNEgxMlY5SDEyLjVIMTNIMjFWMjBIM1oiLz48L3N2Zz4=');
+}
+
+.file-type-icon.text {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzM0YTg1MyI+PHBhdGggZD0iTTE0IDJIMVYyMkgyM1Y4TDE0IDJaTTE0IDhWM0wyMiA5SDE0VjhaTTMgMjBWNEgxMlY5SDIxVjIwSDNaTTcgMTFINVYxM0g3VjExWk0xOSAxMUg5VjEzSDE5VjExWk03IDE1SDVWMTdIN1YxNVpNMTkgMTVIOVYxN0gxOVYxNVoiLz48L3N2Zz4=');
+}
+
+.file-type-icon.video {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2VhNDMzNSI+PHBhdGggZD0iTTEyIDJDNi40NzcyIDIgMiA2LjQ3NzIgMiAxMkMyIDE3LjUyMjggNi40NzcyIDIyIDEyIDIyQzE3LjUyMjggMjIgMjIgMTcuNTIyOCAyMiAxMkMyMiA2LjQ3NzIgMTcuNTIyOCAyIDEyIDJaTTEwIDcuNUwxNiAxMkwxMCAxNi41VjcuNVoiLz48L3N2Zz4=');
+}
+
+.file-type-icon.audio {
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iIzlhYTBhNiI+PHBhdGggZD0iTTEyIDNWMTNDMTEuNSAxMi44IDExIDEyLjcgMTAuNSAxMi43QzguNSAxMi43IDcgMTQuMiA3IDE2LjJDNyAxOC4yIDguNSAxOS43IDEwLjUgMTkuN0MxMi41IDE5LjcgMTQgMTguMiAxNCAxNi4yVjdIMThWM0gxMlpNMTAuNSAxOC4yQzkuNCAxOC4yIDguNSAxNy4zIDguNSAxNi4yQzguNSAxNS4xIDkuNCAxNC4yIDEwLjUgMTQuMkMxMS42IDE0LjIgMTIuNSAxNS4xIDEyLjUgMTYuMkMxMi41IDE3LjMgMTEuNiAxOC4yIDEwLjUgMTguMloiLz48L3N2Zz4=');
+}
+
+.file-details {
+  flex: 1;
+  overflow: hidden;
+  width: 0;
 }
 
 .file-name {
-  font-size: 26rpx;
-  color: #666;
+  display: block;
+  font-size: 28rpx;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 500rpx;
+  max-width: 100%;
+}
+
+.file-size {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
 }
 
 .file-delete {
-  width: 40rpx;
-  height: 40rpx;
-  line-height: 40rpx;
+  width: 48rpx;
+  height: 48rpx;
+  line-height: 48rpx;
   text-align: center;
+  font-size: 32rpx;
+  color: #ff4d4f;
+  background-color: #f0f0f0;
   border-radius: 50%;
-  background-color: #ff4d4f;
-  color: #fff;
-  font-size: 24rpx;
+  flex-shrink: 0;
   margin-left: 10rpx;
 }
 
 .upload-btn {
-  background-color: #f1f1f1;
-  color: #666;
-  font-size: 28rpx;
-  padding: 15rpx 30rpx;
-  border-radius: 6rpx;
-  width: auto;
-  display: inline-block;
+  background-color: #3a7afe;
+  color: white;
+  margin-bottom: 10rpx;
+}
+
+.upload-tip {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-top: 10rpx;
 }
 
 /* 按钮样式 */
@@ -322,74 +379,48 @@
 
 .detail-files {
   margin-top: 10rpx;
+  width: 100%;
 }
 
 .detail-file {
-  padding: 15rpx;
-  background-color: #f1f1f1;
-  border-radius: 6rpx;
-  margin-bottom: 10rpx;
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.file-info {
-  flex: 1;
-  overflow: hidden;
-}
-
-.file-name {
-  font-size: 26rpx;
-  color: #666;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 400rpx;
-  display: block;
-}
-
-.file-size {
-  font-size: 22rpx;
-  color: #999;
-  margin-top: 4rpx;
-  display: block;
+  padding: 20rpx;
+  background-color: #f9f9f9;
+  border-radius: 8rpx;
+  margin-bottom: 10rpx;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .file-actions {
   display: flex;
-  align-items: center;
+  flex-shrink: 0;
+  margin-left: 10rpx;
 }
 
 .file-download, .file-preview {
   display: flex;
   align-items: center;
-  padding: 6rpx 12rpx;
-  border-radius: 4rpx;
+  padding: 10rpx 20rpx;
   margin-left: 10rpx;
-}
-
-.file-download {
-  background-color: #1E90FF;
-  color: #fff;
-}
-
-.file-preview {
-  background-color: #4CAF50;
-  color: #fff;
+  background-color: #3a7afe;
+  color: white;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  white-space: nowrap;
+  min-width: 80rpx;
+  justify-content: center;
 }
 
 .download-icon {
-  font-size: 24rpx;
-  margin-right: 4rpx;
+  margin-right: 6rpx;
 }
 
-.download-text, .preview-text {
-  font-size: 22rpx;
-}
-
-.detail-actions {
-  margin-top: 30rpx;
+/* 详情页文件列表中的文件信息 */
+.detail-file .file-info {
+  max-width: 70%;
 }
 
 /* 适配暗黑模式 */
