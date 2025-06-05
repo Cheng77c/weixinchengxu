@@ -1,0 +1,433 @@
+.container {
+  padding: 20rpx;
+  width: 700rpx;
+}
+
+/* 标签页样式 */
+.tab-header {
+  display: flex;
+  width: 100%;
+  height: 80rpx;
+  background-color: #f8f8f8;
+  border-radius: 8rpx;
+  margin-bottom: 30rpx;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28rpx;
+  color: #666;
+  position: relative;
+}
+
+.tab-item.active {
+  color: #1E90FF;
+  font-weight: bold;
+}
+
+.tab-item.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60rpx;
+  height: 4rpx;
+  background-color: #1E90FF;
+}
+
+/* 表单项样式 */
+.form-item {
+  margin-bottom: 25rpx;
+  width: 100%;
+}
+
+.form-item text {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 20rpx;
+  margin-top: 10rpx;
+  border: 1px solid #ddd;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+
+.textarea {
+  height: 200rpx;
+}
+
+/* 上传组件样式 */
+.uploader-container {
+  margin-top: 10rpx;
+}
+
+.uploader-files {
+  margin-bottom: 20rpx;
+}
+
+.file-item {
+  padding: 15rpx;
+  background-color: #f1f1f1;
+  border-radius: 6rpx;
+  margin-bottom: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.file-name {
+  font-size: 26rpx;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 500rpx;
+}
+
+.file-delete {
+  width: 40rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  border-radius: 50%;
+  background-color: #ff4d4f;
+  color: #fff;
+  font-size: 24rpx;
+  margin-left: 10rpx;
+}
+
+.upload-btn {
+  background-color: #f1f1f1;
+  color: #666;
+  font-size: 28rpx;
+  padding: 15rpx 30rpx;
+  border-radius: 6rpx;
+  width: auto;
+  display: inline-block;
+}
+
+/* 按钮样式 */
+.submit-btn {
+  background-color: #1E90FF;
+  color: #fff;
+  padding: 24rpx;
+  border-radius: 10rpx;
+  width: 100%;
+  font-size: 32rpx;
+  margin-top: 40rpx;
+  font-weight: bold;
+}
+
+.status-info {
+  margin-top: 40rpx;
+  font-size: 28rpx;
+  color: #666;
+  text-align: center;
+}
+
+.action-buttons {
+  margin-top: 40rpx;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.action-buttons button {
+  width: 48%;
+  padding: 20rpx;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+.action-buttons button:first-child {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.action-buttons button:last-child {
+  background-color: #f44336;
+  color: white;
+}
+
+/* 加载动画 */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200rpx;
+}
+
+.loading {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid #f3f3f3;
+  border-top: 6rpx solid #1E90FF;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 申请列表样式 */
+.empty-list {
+  text-align: center;
+  padding: 100rpx 0;
+  color: #999;
+  font-size: 30rpx;
+}
+
+.application-list {
+  width: 100%;
+}
+
+.application-item {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.application-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.company-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.status {
+  font-size: 26rpx;
+  padding: 6rpx 16rpx;
+  border-radius: 30rpx;
+}
+
+.status.pending {
+  background-color: #FFC107;
+  color: #fff;
+}
+
+.status.reviewing {
+  background-color: #2196F3;
+  color: #fff;
+}
+
+.status.approved {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.status.rejected {
+  background-color: #F44336;
+  color: #fff;
+}
+
+.application-info {
+  margin-bottom: 20rpx;
+}
+
+.info-item {
+  font-size: 26rpx;
+  color: #666;
+  margin-right: 20rpx;
+  display: block;
+  margin-bottom: 10rpx;
+}
+
+.application-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-btn {
+  font-size: 24rpx;
+  padding: 10rpx 20rpx;
+  margin-left: 20rpx;
+  border-radius: 6rpx;
+}
+
+.detail-btn {
+  background-color: #1E90FF;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #F44336;
+  color: white;
+}
+
+/* 申请详情样式 */
+.detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.back-btn {
+  font-size: 26rpx;
+  padding: 10rpx 20rpx;
+  background-color: #f1f1f1;
+  color: #666;
+  border-radius: 6rpx;
+  margin-right: 20rpx;
+}
+
+.detail-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-card {
+  background-color: #fff;
+  border-radius: 10rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.detail-item {
+  margin-bottom: 20rpx;
+}
+
+.detail-label {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+  display: block;
+}
+
+.detail-value {
+  font-size: 30rpx;
+  color: #333;
+  word-break: break-all;
+}
+
+.detail-files {
+  margin-top: 10rpx;
+}
+
+.detail-file {
+  padding: 15rpx;
+  background-color: #f1f1f1;
+  border-radius: 6rpx;
+  margin-bottom: 10rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.file-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.file-name {
+  font-size: 26rpx;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 400rpx;
+  display: block;
+}
+
+.file-size {
+  font-size: 22rpx;
+  color: #999;
+  margin-top: 4rpx;
+  display: block;
+}
+
+.file-actions {
+  display: flex;
+  align-items: center;
+}
+
+.file-download, .file-preview {
+  display: flex;
+  align-items: center;
+  padding: 6rpx 12rpx;
+  border-radius: 4rpx;
+  margin-left: 10rpx;
+}
+
+.file-download {
+  background-color: #1E90FF;
+  color: #fff;
+}
+
+.file-preview {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+.download-icon {
+  font-size: 24rpx;
+  margin-right: 4rpx;
+}
+
+.download-text, .preview-text {
+  font-size: 22rpx;
+}
+
+.detail-actions {
+  margin-top: 30rpx;
+}
+
+/* 适配暗黑模式 */
+@media (prefers-color-scheme: dark) {
+  .tab-header {
+    background-color: #333;
+  }
+  
+  .tab-item {
+    color: #aaa;
+  }
+  
+  .tab-item.active {
+    color: #4dabf7;
+  }
+  
+  .tab-item.active::after {
+    background-color: #4dabf7;
+  }
+  
+  .input, .textarea {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+  }
+  
+  .application-item, .detail-card {
+    background-color: #333;
+    box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.3);
+  }
+  
+  .company-name, .detail-value {
+    color: #eee;
+  }
+  
+  .info-item, .detail-label {
+    color: #aaa;
+  }
+}
+
+

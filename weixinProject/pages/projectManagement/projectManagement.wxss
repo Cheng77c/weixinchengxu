@@ -1,0 +1,40 @@
+/* projectManagement.wxss */
+.container {
+  padding: 20rpx;
+  width: 700rpx;
+}
+
+.form .input {
+  width: 700rpx;
+  margin-bottom: 10rpx;
+  padding: 10rpx;
+  border: 1rpx solid #ccc;
+  border-radius: 4rpx;
+}
+
+.submit-button {
+  width: 700rpx;
+  padding: 12rpx;
+  background-color: #007aff;
+  color: white;
+  text-align: center;
+  border-radius: 4rpx;
+}
+
+.progress, .report-upload, .feedback {
+  margin-top: 20rpx;
+  width: 700rpx;
+}
+
+.choose-file-button, .submit-report-button {
+  width: 700rpx;
+  padding: 12rpx;
+  background-color: #007aff;
+  color: white;
+  text-align: center;
+  border-radius: 4rpx;
+}
+
+button {
+  margin-top: 10rpx;
+}

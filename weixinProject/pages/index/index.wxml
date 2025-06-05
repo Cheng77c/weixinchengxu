@@ -1,0 +1,41 @@
+<swiper autoplay indicator-dots indicator-color="#FFFFF" interval="3000" circular>
+  <swiper-item>
+    <image src="/images/swiper/swiper1.jpg" mode="widthFix"></image>
+  </swiper-item>
+  <swiper-item>
+    <image src="/images/swiper/swiper2.jpg" mode="widthFix"></image>
+  </swiper-item>
+  <swiper-item>
+    <image src="/images/swiper/swiper3.jpg" mode="widthFix"></image>
+  </swiper-item>
+</swiper>
+
+<view class="menu">
+  <view class="item" bindtap="navigateToCooperateApply">
+    <image src="/images/menu/cooperate.png" class="img" />
+    <text class="title">合作申请</text>
+  </view>
+  <view class="item" bindtap="navigateToTrainingManagement">
+    <image src="/images/menu/educaation.png" class="img" />
+    <text class="title">培训管理</text>
+  </view>
+  <view class="item" bindtap="navigateToProjectManagement">
+    <image src="/images/menu/project.png" class="img" />
+    <text class="title">项目管理</text>
+  </view>
+  <view class="item" bindtap="navigateToDatumCenter">
+    <image src="/images/menu/datum.png" class="img" />
+    <text class="title">资料中心</text>
+  </view>
+</view>
+
+<view class="notice">
+  <image src="/images/home/notice.png" mode="aspectFit" style="width: 200rpx; height: 100rpx;" />
+  <text class="notice-title">通知公告</text>
+  <view class="notice-list">
+    <block wx:for="{{notices}}" wx:key="index">
+      <text class="notice-item">{{item}}</text>
+    </block>
+  </view>
+</view>
+

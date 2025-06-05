@@ -1,0 +1,29 @@
+<!-- projectManagement.wxml -->
+<view class="container">
+  <!-- 项目申请表单 -->
+  <view class="form">
+    <input class="input" placeholder="项目名称" bindinput="inputProjectName"/>
+    <input class="input" placeholder="项目负责人" bindinput="inputProjectLeader"/>
+    <input class="input" placeholder="项目描述" bindinput="inputProjectDescription"/>
+    <input class="input" placeholder="项目目标" bindinput="inputProjectGoal"/>
+    <input class="input" placeholder="项目预算" bindinput="inputProjectBudget"/>
+    <button class="submit-button" bindtap="submitProjectApplication">提交申请</button>
+  </view>
+
+  <!-- 项目进度显示 -->
+  <view class="progress">
+    <text>当前进度：{{progress}}</text>
+  </view>
+
+  <!-- 提交报告 -->
+  <view class="report-upload">
+    <button class="choose-file-button" bindtap="chooseFile">选择报告文件</button>
+    <text>{{reportFile ? '文件已选择' : '请上传报告'}}</text>
+    <button class="submit-report-button" bindtap="submitReport">提交报告</button>
+  </view>
+
+  <!-- 管理员反馈 -->
+  <view class="feedback">
+    <text>管理员反馈：{{feedback}}</text>
+  </view>
+</view>

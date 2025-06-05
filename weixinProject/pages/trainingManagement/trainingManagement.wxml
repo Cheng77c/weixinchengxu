@@ -1,0 +1,26 @@
+<!-- pages/trainingManagement/trainingManagement.wxml -->
+<view class="container">
+  <view class="title">培训课程</view>
+  <view class="course-list">
+    <block wx:for="{{courses}}" wx:key="id">
+      <view class="course-item">
+        <text class="course-name">{{item.name}}</text>
+        <text class="course-type">{{item.type}}</text>
+        <text class="course-desc">{{item.description}}</text>
+        <button class="apply-button" data-course-id="{{item.id}}" bindtap="applyCourse">申请课程</button>
+      </view>
+    </block>
+  </view>
+
+  <view class="status-section">
+    <text>申请状态: {{applicationStatus ? '已申请' : '未申请'}}</text>
+    <text>培训进度: {{trainingProgress}}</text>
+  </view>
+
+  <view class="action-buttons">
+    <button bindtap="viewApplicationStatus">查看申请状态</button>
+    <button bindtap="signIn" wx:if="{{applicationStatus && trainingProgress === '已签到'}}">签到</button>
+    <button bindtap="takeExam" wx:if="{{applicationStatus && trainingProgress === '已签到'}}">参加考试</button>
+    <button bindtap="getCertificate" wx:if="{{trainingResult === '合格'}}">下载证书</button>
+  </view>
+</view>

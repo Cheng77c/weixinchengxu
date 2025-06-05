@@ -1,0 +1,72 @@
+<!-- pages/my/my.wxml -->
+<view class="container">
+  <!-- 顶部背景 -->
+  <view class="header-bg"></view>
+  
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-info">
+      <text class="username">{{userInfo.name || '未登录'}}</text>
+      <text class="account">{{userInfo.phone || '点击登录账号'}}</text>
+    </view>
+    <view class="login-btn" wx:if="{{!isLoggedIn}}">
+      <button bindtap="goToLogin" class="btn-login">登录/注册</button>
+    </view>
+  </view>
+  
+  <!-- 功能菜单 -->
+  <view class="menu-container">
+    <view class="menu-group">
+      <view class="menu-title">个人信息</view>
+      <view class="menu-item" bindtap="editProfile">
+        <view class="menu-item-left">
+          <text class="menu-icon">✏️</text>
+          <text class="menu-text">编辑资料</text>
+        </view>
+        <text class="arrow-icon">></text>
+      </view>
+      <view class="menu-item" bindtap="changePassword">
+        <view class="menu-item-left">
+          <text class="menu-icon">🔒</text>
+          <text class="menu-text">修改密码</text>
+        </view>
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+    
+    <view class="menu-group">
+      <view class="menu-title">应用设置</view>
+      <view class="menu-item" bindtap="goToSettings">
+        <view class="menu-item-left">
+          <text class="menu-icon">⚙️</text>
+          <text class="menu-text">系统设置</text>
+        </view>
+        <text class="arrow-icon">></text>
+      </view>
+      <view class="menu-item" bindtap="contactUs">
+        <view class="menu-item-left">
+          <text class="menu-icon">📞</text>
+          <text class="menu-text">联系我们</text>
+        </view>
+        <text class="arrow-icon">></text>
+      </view>
+      <view class="menu-item" bindtap="aboutUs">
+        <view class="menu-item-left">
+          <text class="menu-icon">ℹ️</text>
+          <text class="menu-text">关于我们</text>
+        </view>
+        <text class="arrow-icon">></text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 退出登录按钮 -->
+  <view class="logout-container" wx:if="{{isLoggedIn}}">
+    <button class="btn-logout" bindtap="logout">退出登录</button>
+  </view>
+  
+  <!-- 版本信息 -->
+  <view class="version-info">
+    <text>版本 1.0.0</text>
+  </view>
+</view>

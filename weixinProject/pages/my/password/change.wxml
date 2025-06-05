@@ -1,0 +1,30 @@
+<!-- pages/password/change.wxml -->
+<view class="container">
+  <view class="form-container">
+    <view class="form-item">
+      <text class="form-label">原密码</text>
+      <input class="form-input" password="true" placeholder="请输入原密码" data-field="oldPassword" bindinput="handleInput" value="{{oldPassword}}" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">新密码</text>
+      <input class="form-input" password="true" placeholder="请输入新密码，不少于6位" data-field="newPassword" bindinput="handleInput" value="{{newPassword}}" />
+    </view>
+    
+    <view class="form-item">
+      <text class="form-label">确认新密码</text>
+      <input class="form-input" password="true" placeholder="请再次输入新密码" data-field="confirmPassword" bindinput="handleInput" value="{{confirmPassword}}" />
+    </view>
+  </view>
+  
+  <view class="tips-container">
+    <text class="tips-text">密码修改提示：</text>
+    <text class="tips-item">• 密码长度不能少于6位</text>
+    <text class="tips-item">• 建议使用字母、数字和符号的组合</text>
+    <text class="tips-item">• 请勿使用与其他网站相同的密码</text>
+  </view>
+  
+  <view class="button-container">
+    <button class="submit-button" bindtap="submitForm">确认修改</button>
+  </view>
+</view> 

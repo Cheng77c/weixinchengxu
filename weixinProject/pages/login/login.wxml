@@ -1,0 +1,51 @@
+<view class="login-container">
+  <view class="logo-container">
+    <image class="logo" src="/images/partner.png" mode="aspectFill" />
+  </view>
+
+  <view class="mode-switch">
+    <view class="switch-item {{isLogin ? 'active' : ''}}" bindtap="switchToLogin">登录</view>
+    <view class="switch-item {{!isLogin ? 'active' : ''}}" bindtap="switchToRegister">注册</view>
+  </view>
+
+  <form bindsubmit="submitForm" class="form">
+    <view class="input-container">
+      <input type="text" placeholder="请输入手机号" bindinput="handlePhoneChange" value="{{phoneNumber}}" class="input" />
+    </view>
+    
+    <view class="input-container password-container">
+      <input password="{{!showPassword}}" placeholder="请输入密码" bindinput="handlePasswordChange" value="{{password}}" class="input" />
+      <view class="password-icon" bindtap="togglePasswordVisibility">
+        <text>{{showPassword ? '👁️' : '👁️‍🗨️'}}</text>
+      </view>
+    </view>
+
+    <view class="remember-container" wx:if="{{isLogin}}">
+      <checkbox checked="{{rememberPassword}}" bindtap="toggleRememberPassword" color="#007aff" />
+      <text class="remember-text" bindtap="toggleRememberPassword">记住密码</text>
+    </view>
+
+    <block wx:if="{{!isLogin}}">
+      <view class="input-container">
+        <input type="text" placeholder="请输入姓名" bindinput="handleNameChange" value="{{name}}" class="input" />
+      </view>
+      <view class="input-container">
+        <input type="text" placeholder="请输入公司名称" bindinput="handleCompanyNameChange" value="{{companyName}}" class="input" />
+      </view>
+      <view class="input-container">
+        <input type="text" placeholder="请输入职位" bindinput="handlePositionChange" value="{{position}}" class="input" />
+      </view>
+      <view class="input-container">
+        <input type="text" placeholder="请输入联系方式" bindinput="handleContactChange" value="{{contact}}" class="input" />
+      </view>
+    </block>
+
+    <button formType="submit" class="submit-btn">{{isLogin ? '登录' : '注册'}}</button>
+  </form>
+
+  <view class="wechat-login">
+    <button class="wechat-btn" bindtap="weChatLogin">微信授权登录</button>
+  </view>
+</view>
+
+<navigator url="/pages/index/index" open-type="switchTab"><button type="primary" plain>登录成功，去首页</button></navigator>

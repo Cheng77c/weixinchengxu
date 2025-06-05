@@ -1,0 +1,63 @@
+<!-- pages/customer/customer.wxml -->
+<view class="container">
+  <!-- 在线咨询 -->
+  <view class="inquiry-section">
+    <text>在线咨询</text>
+    <input 
+      type="text" 
+      placeholder="请输入您的问题..." 
+      value="{{inquiryText}}" 
+      bindinput="updateInquiryText" 
+    />
+    <button bindtap="sendInquiry" disabled="{{loading}}">
+      {{loading ? '提交中...' : '提交问题'}}
+    </button>
+  </view>
+
+  <!-- 提交工单 -->
+  <view class="ticket-section">
+    <text>提交工单</text>
+    <picker 
+      mode="selector" 
+      range="{{['技术支持', '合作问题']}}" 
+      value="{{ticketType === '技术支持' ? 0 : 1}}" 
+      bindchange="updateTicketType"
+    >
+      <view class="picker">
+        {{ticketType}}
+      </view>
+    </picker>
+    <textarea 
+      placeholder="请输入问题内容..." 
+      value="{{ticketContent}}" 
+      bindinput="updateTicketContent"
+    ></textarea>
+    <button bindtap="submitTicket" disabled="{{loading}}">
+      {{loading ? '提交中...' : '提交工单'}}
+    </button>
+    <button bindtap="viewTicketList" class="secondary-button">查看我的工单</button>
+  </view>
+
+  <!-- 常见问题 (FAQ) -->
+  <view class="faq-section">
+    <button bindtap="toggleFAQ">
+      {{showFAQ ? '隐藏常见问题' : '查看常见问题'}}
+    </button>
+    <view wx:if="{{showFAQ}}">
+      <view wx:if="{{faqList.length === 0 && loading}}" class="loading">
+        <text>加载中...</text>
+      </view>
+      <view wx:elif="{{faqList.length === 0}}" class="empty-tip">
+        <text>暂无常见问题</text>
+      </view>
+      <block wx:else>
+        <block wx:for="{{faqList}}" wx:key="id">
+          <view class="faq-item">
+            <text class="question">{{item.question}}</text>
+            <text class="answer">{{item.answer}}</text>
+          </view>
+        </block>
+      </block>
+    </view>
+  </view>
+</view>

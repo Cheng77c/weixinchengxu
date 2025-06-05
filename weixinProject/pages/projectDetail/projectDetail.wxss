@@ -1,0 +1,182 @@
+/* projectDetail.wxss */
+.container {
+  padding: 20rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.status {
+  font-size: 24rpx;
+  padding: 4rpx 12rpx;
+  border-radius: 20rpx;
+  color: #fff;
+}
+
+.pending {
+  background-color: #faad14;
+}
+
+.approved {
+  background-color: #52c41a;
+}
+
+.rejected {
+  background-color: #f5222d;
+}
+
+.in_progress {
+  background-color: #1890ff;
+}
+
+.completed {
+  background-color: #13c2c2;
+}
+
+.info-card, .progress-card, .report-card, .report-list, .feedback-card {
+  background-color: #fff;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 10rpx rgba(0, 0, 0, 0.1);
+}
+
+.card-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-bottom: 20rpx;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.info-item {
+  margin-bottom: 16rpx;
+}
+
+.label {
+  font-size: 28rpx;
+  color: #666;
+  margin-right: 20rpx;
+  display: block;
+  margin-bottom: 6rpx;
+}
+
+.value {
+  font-size: 30rpx;
+  color: #333;
+  word-break: break-all;
+}
+
+.description {
+  white-space: pre-wrap;
+}
+
+.progress-bar {
+  margin: 20rpx 0;
+}
+
+.update-form {
+  margin-top: 20rpx;
+}
+
+.update-button {
+  margin-top: 20rpx;
+  background-color: #07c160;
+  color: #fff;
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.choose-file-button, .submit-report-button {
+  margin-bottom: 20rpx;
+}
+
+.choose-file-button {
+  background-color: #1890ff;
+  color: #fff;
+}
+
+.submit-report-button {
+  background-color: #07c160;
+  color: #fff;
+}
+
+.file-name {
+  font-size: 26rpx;
+  color: #666;
+  margin: 10rpx 0;
+  word-break: break-all;
+}
+
+.report-item {
+  border-bottom: 1rpx solid #eee;
+  padding: 20rpx 0;
+}
+
+.report-item:last-child {
+  border-bottom: none;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10rpx;
+}
+
+.report-title {
+  font-size: 30rpx;
+  font-weight: bold;
+}
+
+.report-date {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.file-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 10rpx 0;
+  font-size: 26rpx;
+  color: #666;
+}
+
+.file-size {
+  color: #999;
+}
+
+.report-content {
+  font-size: 28rpx;
+  margin: 10rpx 0;
+  white-space: pre-wrap;
+}
+
+.report-actions {
+  margin-top: 10rpx;
+}
+
+.action-button {
+  font-size: 26rpx;
+  padding: 6rpx 20rpx;
+  line-height: 1.6;
+  background-color: #1890ff;
+  color: #fff;
+  margin-right: 20rpx;
+}
+
+.feedback-content {
+  font-size: 28rpx;
+  white-space: pre-wrap;
+} 

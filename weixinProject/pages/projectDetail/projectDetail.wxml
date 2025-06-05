@@ -1,0 +1,86 @@
+<!-- projectDetail.wxml -->
+<view class="container">
+  <view class="header">
+    <text class="title">项目详情</text>
+    <text class="status {{project.status}}">{{statusMap[project.status]}}</text>
+  </view>
+  
+  <view class="info-card">
+    <view class="info-item">
+      <text class="label">项目名称</text>
+      <text class="value">{{project.projectName}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">项目负责人</text>
+      <text class="value">{{project.projectLeader}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">项目描述</text>
+      <text class="value description">{{project.projectDescription}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">项目目标</text>
+      <text class="value">{{project.projectGoal}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">项目预算</text>
+      <text class="value">{{project.projectBudget}}</text>
+    </view>
+    <view class="info-item">
+      <text class="label">申请时间</text>
+      <text class="value">{{project.createdAt}}</text>
+    </view>
+    <view class="info-item" wx:if="{{project.reviewedAt}}">
+      <text class="label">审核时间</text>
+      <text class="value">{{project.reviewedAt}}</text>
+    </view>
+  </view>
+  
+  <view class="progress-card" wx:if="{{project.status === 'approved' || project.status === 'in_progress' || project.status === 'completed'}}">
+    <view class="card-title">项目进度</view>
+    <view class="progress-bar">
+      <text>{{project.progress || '0%'}}</text>
+      <progress percent="{{progressValue}}" stroke-width="4" activeColor="#07c160" backgroundColor="#e6e6e6"/>
+    </view>
+    <view class="update-form" wx:if="{{project.status === 'approved' || project.status === 'in_progress'}}">
+      <slider bindchange="progressChange" value="{{progressValue}}" min="0" max="100" show-value/>
+      <button class="update-button" bindtap="updateProgress">更新进度</button>
+    </view>
+  </view>
+  
+  <view class="report-card" wx:if="{{project.status === 'approved' || project.status === 'in_progress' || project.status === 'completed'}}">
+    <view class="card-title">项目报告</view>
+    <view class="report-form">
+      <button class="choose-file-button" bindtap="chooseFile">选择报告文件</button>
+      <text class="file-name" wx:if="{{reportFile}}">{{reportFileName}}</text>
+      <button class="submit-report-button" bindtap="submitReport" disabled="{{!reportFile}}">提交报告</button>
+    </view>
+  </view>
+  
+  <view class="report-list" wx:if="{{reports.length > 0}}">
+    <view class="card-title">历史报告</view>
+    <view class="report-item" wx:for="{{reports}}" wx:key="id">
+      <view class="report-header">
+        <text class="report-title">{{item.reportTitle}}</text>
+        <text class="report-date">{{item.createdAt}}</text>
+      </view>
+      <view class="file-info" wx:if="{{item.fileName}}">
+        <text class="file-name">{{item.fileName}}</text>
+        <text class="file-size">{{item.fileSizeText}}</text>
+      </view>
+      <view class="report-content" wx:if="{{item.reportContent}}">
+        <text>{{item.reportContent}}</text>
+      </view>
+      <view class="report-actions">
+        <button class="action-button" wx:if="{{item.fileUrl}}" bindtap="downloadFile" data-url="{{item.fileUrl}}" data-name="{{item.fileName}}">下载附件</button>
+      </view>
+    </view>
+  </view>
+  
+  <view class="feedback-card" wx:if="{{project.feedback}}">
+    <view class="card-title">管理员反馈</view>
+    <view class="feedback-content">
+      <text>{{project.feedback}}</text>
+    </view>
+  </view>
+</view> 

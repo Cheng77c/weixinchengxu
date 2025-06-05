@@ -1,0 +1,37 @@
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="search-box">
+    <input bindinput="handleSearch" placeholder="搜索文件..." />
+  </view>
+
+  <!-- 文件上传 -->
+  <view class="upload-section">
+    <button bindtap="handleUpload">上传资料</button>
+  </view>
+
+  <!-- 文件分类展示 -->
+  <view class="categories">
+    <view class="category" wx:for="{{fileCategories}}" wx:key="*this">
+      <text>{{item}}</text>
+    </view>
+  </view>
+
+  <!-- 可下载文件列表 -->
+  <view class="file-list">
+    <view wx:for="{{downloadableFiles}}" wx:key="*this">
+      <view class="file-item">
+        <text>{{item.name}}</text>
+        <button bindtap="handleDownload" data-filename="{{item.name}}">下载</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 已上传文件列表（合作伙伴） -->
+  <view class="uploaded-files">
+    <view wx:for="{{uploadedFiles}}" wx:key="*this">
+      <view class="file-item">
+        <text>{{item.name}} (上传者: {{item.uploadedBy}})</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,175 @@
+<!--pages/cooperateApply/cooperateApply.wxml-->
+<view class="container">
+  <!-- 顶部标签页 -->
+  <view class="tab-header">
+    <view class="tab-item {{currentTab === 'form' ? 'active' : ''}}" bindtap="switchTab" data-tab="form">
+      <text>申请表单</text>
+    </view>
+    <view class="tab-item {{currentTab === 'list' ? 'active' : ''}}" bindtap="switchTab" data-tab="list">
+      <text>申请记录</text>
+    </view>
+  </view>
+
+  <!-- 加载中提示 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading"></view>
+  </view>
+
+  <!-- 申请表单 -->
+  <view class="tab-content" wx:if="{{currentTab === 'form' && !loading}}">
+    <view class="form-item">
+      <text>公司名称</text>
+      <input class="input" bindinput="onInputChange" data-field="companyName" placeholder="请输入公司名称" value="{{companyName}}" />
+    </view>
+    
+    <view class="form-item">
+      <text>联系人姓名</text>
+      <input class="input" bindinput="onInputChange" data-field="contactName" placeholder="请输入联系人姓名" value="{{contactName}}" />
+    </view>
+
+    <view class="form-item">
+      <text>联系电话</text>
+      <input class="input" bindinput="onInputChange" data-field="contactPhone" placeholder="请输入联系电话" type="number" maxlength="11" value="{{contactPhone}}" />
+    </view>
+
+    <view class="form-item">
+      <text>公司介绍</text>
+      <textarea class="textarea" bindinput="onInputChange" data-field="companyDesc" placeholder="请输入公司介绍" value="{{companyDesc}}" />
+    </view>
+
+    <view class="form-item">
+      <text>合作意向描述</text>
+      <textarea class="textarea" bindinput="onInputChange" data-field="intentionDesc" placeholder="请输入合作意向描述" value="{{intentionDesc}}" />
+    </view>
+
+    <view class="form-item">
+      <text>上传相关资质</text>
+      <view class="uploader-container">
+        <view class="uploader-files" wx:if="{{fileList.length > 0}}">
+          <view class="file-item" wx:for="{{fileList}}" wx:key="index">
+            <text class="file-name">{{item.name || '文件' + (index + 1)}}</text>
+            <view class="file-delete" catchtap="deleteFile" data-index="{{index}}">×</view>
+          </view>
+        </view>
+        <button class="upload-btn" bindtap="chooseFile">选择文件</button>
+      </view>
+    </view>
+
+    <button class="submit-btn" bindtap="onSubmit">提交申请</button>
+
+    <view class="status-info" wx:if="{{applyStatus}}">
+      <text>当前申请状态: {{applyStatus}}</text>
+    </view>
+
+    <view class="action-buttons">
+      <button bindtap="onCheckStatus">查询进度</button>
+      <button bindtap="onViewHistory">查看历史记录</button>
+    </view>
+  </view>
+
+  <!-- 申请列表 -->
+  <view class="tab-content" wx:if="{{currentTab === 'list' && !loading}}">
+    <view wx:if="{{applications.length === 0}}" class="empty-list">
+      <text>暂无申请记录</text>
+    </view>
+    
+    <view wx:else class="application-list">
+      <view class="application-item" wx:for="{{applications}}" wx:key="id" bindtap="viewDetail" data-id="{{item.id}}">
+        <view class="application-header">
+          <text class="company-name">{{item.companyName}}</text>
+          <text class="status {{item.status}}">{{item.status === 'pending' ? '待审核' : item.status === 'reviewing' ? '审核中' : item.status === 'approved' ? '已通过' : '已拒绝'}}</text>
+        </view>
+        <view class="application-info">
+          <text class="info-item">申请时间: {{item.createdAt}}</text>
+          <text class="info-item" wx:if="{{item.reviewedAt}}">审核时间: {{item.reviewedAt}}</text>
+        </view>
+        <view class="application-actions">
+          <button class="action-btn detail-btn" catchtap="viewDetail" data-id="{{item.id}}">查看详情</button>
+          <button class="action-btn cancel-btn" wx:if="{{item.status === 'pending'}}" catchtap="cancelApplication" data-id="{{item.id}}">取消申请</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 申请详情 -->
+  <view class="tab-content" wx:if="{{currentTab === 'detail' && !loading && currentDetail}}">
+    <view class="detail-header">
+      <button class="back-btn" bindtap="backToList">返回列表</button>
+      <text class="detail-title">申请详情</text>
+    </view>
+    
+    <view class="detail-card">
+      <view class="detail-item">
+        <text class="detail-label">申请状态:</text>
+        <text class="detail-value status {{currentDetail.status}}">
+          {{currentDetail.status === 'pending' ? '待审核' : currentDetail.status === 'reviewing' ? '审核中' : currentDetail.status === 'approved' ? '已通过' : '已拒绝'}}
+        </text>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">公司名称:</text>
+        <text class="detail-value">{{currentDetail.companyName}}</text>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">联系人:</text>
+        <text class="detail-value">{{currentDetail.contactName}}</text>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">联系电话:</text>
+        <text class="detail-value">{{currentDetail.contactPhone}}</text>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">公司介绍:</text>
+        <text class="detail-value">{{currentDetail.companyDesc}}</text>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">合作意向:</text>
+        <text class="detail-value">{{currentDetail.intentionDesc}}</text>
+      </view>
+      
+      <view class="detail-item" wx:if="{{currentDetail.attachments && currentDetail.attachments.length > 0}}">
+        <text class="detail-label">上传资料:</text>
+        <view class="detail-files">
+          <view class="detail-file" wx:for="{{currentDetail.attachments}}" wx:key="index">
+            <view class="file-info">
+              <text class="file-name">{{item.name}}</text>
+              <text class="file-size">{{item.sizeText || item.size}} {{item.sizeUnit || 'B'}}</text>
+            </view>
+            <view class="file-actions">
+              <view class="file-download" catchtap="downloadFile" data-url="{{item.url}}" data-name="{{item.name}}">
+                <text class="download-icon">↓</text>
+                <text class="download-text">下载</text>
+              </view>
+              <view class="file-preview" catchtap="previewFile" data-url="{{item.url}}" data-type="{{item.type}}" wx:if="{{item.type.indexOf('image') >= 0}}">
+                <text class="preview-text">预览</text>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="detail-item">
+        <text class="detail-label">申请时间:</text>
+        <text class="detail-value">{{currentDetail.createdAt}}</text>
+      </view>
+      
+      <view class="detail-item" wx:if="{{currentDetail.reviewedAt}}">
+        <text class="detail-label">审核时间:</text>
+        <text class="detail-value">{{currentDetail.reviewedAt}}</text>
+      </view>
+      
+      <view class="detail-item" wx:if="{{currentDetail.reviewComment}}">
+        <text class="detail-label">审核意见:</text>
+        <text class="detail-value">{{currentDetail.reviewComment}}</text>
+      </view>
+    </view>
+    
+    <view class="detail-actions" wx:if="{{currentDetail.status === 'pending'}}">
+      <button class="cancel-btn" bindtap="cancelApplication" data-id="{{currentDetail.id}}">取消申请</button>
+    </view>
+  </view>
+</view>

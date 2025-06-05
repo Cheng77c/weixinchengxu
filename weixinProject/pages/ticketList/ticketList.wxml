@@ -1,0 +1,49 @@
+<!-- pages/ticketList/ticketList.wxml -->
+<view class="container">
+  <view class="filter-bar">
+    <view class="filter-item {{currentStatus === '' ? 'active' : ''}}" bindtap="changeStatus" data-status="">全部</view>
+    <view class="filter-item {{currentStatus === 'pending' ? 'active' : ''}}" bindtap="changeStatus" data-status="pending">待处理</view>
+    <view class="filter-item {{currentStatus === 'processing' ? 'active' : ''}}" bindtap="changeStatus" data-status="processing">处理中</view>
+    <view class="filter-item {{currentStatus === 'resolved' ? 'active' : ''}}" bindtap="changeStatus" data-status="resolved">已解决</view>
+    <view class="filter-item {{currentStatus === 'closed' ? 'active' : ''}}" bindtap="changeStatus" data-status="closed">已关闭</view>
+  </view>
+  
+  <view class="ticket-list">
+    <view wx:if="{{loading && tickets.length === 0}}" class="loading">
+      <text>加载中...</text>
+    </view>
+    <view wx:elif="{{tickets.length === 0}}" class="empty-tip">
+      <text>暂无工单</text>
+    </view>
+    <block wx:else>
+      <view 
+        wx:for="{{tickets}}" 
+        wx:key="id" 
+        class="ticket-item"
+        bindtap="viewTicketDetail"
+        data-id="{{item.id}}"
+      >
+        <view class="ticket-header">
+          <text class="ticket-type">{{item.ticketType}}</text>
+          <text class="ticket-status {{item.status}}">
+            {{item.status === 'pending' ? '待处理' : 
+              item.status === 'processing' ? '处理中' : 
+              item.status === 'resolved' ? '已解决' : '已关闭'}}
+          </text>
+        </view>
+        <view class="ticket-content">{{item.content}}</view>
+        <view class="ticket-footer">
+          <text class="ticket-time">提交时间: {{item.createdAt}}</text>
+          <text wx:if="{{item.resolvedAt}}" class="ticket-resolved-time">解决时间: {{item.resolvedAt}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <view wx:if="{{loading && tickets.length > 0}}" class="loading-more">
+    <text>加载更多...</text>
+  </view>
+  <view wx:elif="{{!hasMore && tickets.length > 0}}" class="no-more">
+    <text>没有更多了</text>
+  </view>
+</view> 
